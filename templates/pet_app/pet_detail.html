@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container px-6 mx-auto">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">
+            {{ pet.name }}'s Details
+        </h2>
+        <a href="{% url 'pet-list' %}" class="px-3 py-1 text-sm text-purple-600 hover:text-purple-700 dark:hover:text-purple-500">
+            Back to My Pets
+        </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Pet Photo -->
+        <div class="bg-white rounded-lg shadow-md dark:bg-gray-800 overflow-hidden">
+            {% if pet.photo %}
+                <img src="{{ pet.photo.url }}" alt="{{ pet.name }}" class="w-full h-64 object-cover">
+            {% else %}
+                <div class="w-full h-64 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                    <span class="text-gray-500 dark:text-gray-400">No photo available</span>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Pet Details -->
+        <div class="bg-white rounded-lg shadow-md dark:bg-gray-800 p-6">
+            <div class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Category</h3>
+                        <p class="mt-1 text-sm text-gray-900 dark:text-gray-200">{{ pet.get_category_display }}</p>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Breed</h3>
+                        <p class="mt-1 text-sm text-gray-900 dark:text-gray-200">
+                            {% if pet.breed %}{{ pet.breed }}{% else %}--{% endif %}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Age</h3>
+                        <p class="mt-1 text-sm text-gray-900 dark:text-gray-200">
+                            {% if pet.age %}{{ pet.age }} years{% else %}--{% endif %}
+                        </p>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Gender</h3>
+                        <p class="mt-1 text-sm text-gray-900 dark:text-gray-200">{{ pet.get_gender_display }}</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Status</h3>
+                        <p class="mt-1 text-sm text-gray-900 dark:text-gray-200">{{ pet.get_status_display }}</p>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Date of Birth</h3>
+                        <p class="mt-1 text-sm text-gray-900 dark:text-gray-200">
+                            {% if pet.dob %}{{ pet.dob|date:"Y-m-d" }}{% else %}--{% endif %}
+                        </p>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Vaccination Status</h3>
+                    <p class="mt-1 text-sm text-gray-900 dark:text-gray-200">
+                        {% if pet.is_vaccinated %}Vaccinated{% else %}Not Vaccinated{% endif %}
+                    </p>
+                </div>
+
+                {% if pet.vet_details %}
+                <div>
+                    <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Vet Details</h3>
+                    <p class="mt-1 text-sm text-gray-900 dark:text-gray-200">{{ pet.vet_details }}</p>
+                </div>
+                {% endif %}
+
+                {% if pet.medical_history %}
+                <div>
+                    <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Medical History</h3>
+                    <p class="mt-1 text-sm text-gray-900 dark:text-gray-200 whitespace-pre-line">{{ pet.medical_history }}</p>
+                </div>
+                {% endif %}
+
+                <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
+                    <p class="text-xs text-gray-500 dark:text-gray-400">
+                        Registered on {{ pet.registration_date|date:"Y-m-d" }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

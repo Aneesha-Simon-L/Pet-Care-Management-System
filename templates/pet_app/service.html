@@ -1,0 +1,224 @@
+{%extends 'base.html'%}
+{%load static%}
+{%block section%}
+<script src="https://cdn.tailwindcss.com"></script>
+    <!-- bradcam_area_start -->
+    <div class="bradcam_area breadcam_bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="bradcam_text text-center">
+                        <h3>Services</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- bradcam_area_end -->
+
+    <!-- service_area_start  -->
+
+
+    <!-- service_area_start  -->
+<div class="service_area py-20">
+    <div class="container">
+        <div class="row justify-content-center mb-12">
+            <div class="col-lg-8 text-center">
+                <h2 class="text-4xl font-bold mb-4">Our Services</h2>
+                <p class="text-gray-600">Tailored care for your furry friends. Explore our full range of services to keep your pets healthy, happy, and pampered!</p>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            {% comment "Service List - Dynamically or statically rendered" %}
+            {% for service in services %}
+            <div class="col-lg-4 col-md-6 mb-5">
+                <div class="single_service p-5 shadow-md rounded-xl text-center bg-white hover:shadow-lg transition">
+                    <div class="service_icon mb-4">
+                        <img src="{{ service.icon_url }}" alt="{{ service.name }}" class="mx-auto h-16">
+                    </div>
+                    <h3 class="text-2xl font-semibold">{{ service.name }}</h3>
+                    <p class="text-gray-600 mt-3">{{ service.description }}</p>
+                </div>
+            </div>
+            {% endfor %}
+            {% comment "Or statically list them below if not using loop" %}
+            <div class="col-lg-4 col-md-6 mb-5">
+                <div class="single_service p-5 shadow-md rounded-xl text-center bg-white hover:shadow-lg transition">
+                    <div class="service_icon mb-4">
+                        <img src="{% static 'img/service/grooming.png' %}" alt="Grooming" class="mx-auto h-16">
+                    </div>
+                    <h3 class="text-2xl font-semibold">Grooming</h3>
+                    <p class="text-gray-600 mt-3">Professional grooming services including brushing, trimming, and cleaning for all breeds.</p>
+                </div>
+            </div>
+            {% endcomment %}
+
+            
+            <div class="col-lg-4 col-md-6 mb-5">
+                <div class="single_service p-5 shadow-md rounded-xl text-center bg-white hover:shadow-lg transition">
+                    <div class="service_icon mb-4">
+                        <img src="{% static 'img/pet-grooming.jpeg' %}" alt="Pet Spa" class="mx-auto h-16">
+                    </div>
+                    <h3 class="text-2xl font-semibold">Pet Grooming</h3>
+                    <p class="text-gray-600 mt-3">Full grooming services including haircuts, nail trims, and brushing for all breeds.</p>
+                </div>
+            </div>
+
+
+            <div class="col-lg-4 col-md-6 mb-5">
+                <div class="single_service p-5 shadow-md rounded-xl text-center bg-white hover:shadow-lg transition">
+                    <div class="service_icon mb-4">
+                        <img src="{% static 'img/pet-spa.jpg' %}" alt="Pet Spa" class="mx-auto h-16">
+                    </div>
+                    <h3 class="text-2xl font-semibold">Pet Spa</h3>
+                    <p class="text-gray-600 mt-3">Spa treatments, massages, and relaxing baths to make your pet feel refreshed and pampered.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-5">
+                <div class="single_service p-5 shadow-md rounded-xl text-center bg-white hover:shadow-lg transition">
+                    <div class="service_icon mb-4">
+                        <img src="{% static 'img/pet-training.jpeg' %}" alt="Training" class="mx-auto h-16">
+                    </div>
+                    <h3 class="text-2xl font-semibold">Training</h3>
+                    <p class="text-gray-600 mt-3">Behavioral training and obedience programs tailored to your pet's age and breed.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-5">
+                <div class="single_service p-5 shadow-md rounded-xl text-center bg-white hover:shadow-lg transition">
+                    <div class="service_icon mb-4">
+                        <img src="{% static 'img/pet-sitting.jpeg' %}" alt="Pet Sitting" class="mx-auto h-16">
+                    </div>
+                    <h3 class="text-2xl font-semibold">Pet Sitting</h3>
+                    <p class="text-gray-600 mt-3">Trustworthy at-home pet sitting services while you're away.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-5">
+                <div class="single_service p-5 shadow-md rounded-xl text-center bg-white hover:shadow-lg transition">
+                    <div class="service_icon mb-4">
+                        <img src="{% static 'img/veterinary.jpg' %}" alt="Veterinary" class="mx-auto h-16">
+                    </div>
+                    <h3 class="text-2xl font-semibold">Veterinary</h3>
+                    <p class="text-gray-600 mt-3">On-call vet services and clinic appointments for regular checkups and emergency care.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-5">
+                <div class="single_service p-5 shadow-md rounded-xl text-center bg-white hover:shadow-lg transition">
+                    <div class="service_icon mb-4">
+                        <img src="{% static 'img/pet-vaccination.webp' %}" alt="Vaccination" class="mx-auto h-16">
+                    </div>
+                    <h3 class="text-2xl font-semibold">Vaccination</h3>
+                    <p class="text-gray-600 mt-3">Timely vaccinations to protect your pets against diseases.</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-5">
+                <div class="single_service p-5 shadow-md rounded-xl text-center bg-white hover:shadow-lg transition">
+                    <div class="service_icon mb-4">
+                        <img src="{% static 'img/pet-photography.jpeg' %}" alt="Pet Photography" class="mx-auto h-16">
+                    </div>
+                    <h3 class="text-2xl font-semibold">Pet Photography</h3>
+                    <p class="text-gray-600 mt-3">Capture beautiful moments with professional pet photography sessions.</p>
+                </div>
+                <div  class="text-center mt-10" style="margin-bottom: 2%">
+                    <a href="{% url 'service-register' %}"  class="bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-6 rounded-xl transition duration-300">
+                        Service Register Now
+                    </a>
+                </div >
+            </div>
+        </div>
+    </div>
+</div>
+<!-- service_area_end  -->
+
+
+
+    <!-- <div class="service_area">
+        <div class="container">
+            <div class="row justify-content-center ">
+                <div class="col-lg-7 col-md-10">
+                    <div class="section_title text-center mb-95">
+                        <h3>Services for every dog</h3>
+                        <p>We provide comprehensive care and specialized services to ensure every dog stays happy, healthy, and well-groomed.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-4 col-md-6">
+                    <div class="single_service">
+                         <div class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
+                             <div class="service_icon">
+                                 <img src="/static/img/service/service_icon_1.png" alt="">
+                             </div>
+                         </div>
+                         <div class="service_content text-center">
+                            <h3>Pet Boarding</h3>
+                            <p>Find nearby pet boarding services.
+                                Online booking with availability check.
+                                Real-time updates on pet status.</p>
+                         </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="single_service active">
+                         <div class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
+                             <div class="service_icon">
+                                 <img src="/static/img/service/service_icon_2.png" alt="">
+                             </div>
+                         </div>
+                         <div class="service_content text-center">
+                            <h3>Pet Adoption</h3>
+                            <p>List pets available for adoption.
+                                Online adoption applications and approval process.
+                                Connect potential adopters with shelters and pet owners.</p>
+                         </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="single_service">
+                         <div class="service_thumb service_icon_bg_1 d-flex align-items-center justify-content-center">
+                             <div class="service_icon">
+                                 <img src="/static/img/service/service_icon_3.png" alt="">
+                             </div>
+                         </div>
+                         <div class="service_content text-center">
+                            <h3>Pet Spa</h3>
+                            <p>Book spa and grooming sessions.
+                                Services like haircuts, nail trimming, and baths.
+                                Mobile pet grooming service integration.</p>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- service_area_end -->
+
+
+    <!-- contact_anipat_start  -->
+    <!-- <div class="contact_anipat anipat_bg_1">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="contact_text text-center">
+                        <div class="section_title text-center">
+                            <h3>Why go with Anipat?</h3>
+                            <p>Because we know that even the best technology is only as good as the people behind it. 24/7 tech support.</p>
+                        </div>
+                        <div class="contact_btn d-flex align-items-center justify-content-center">
+                            <a href="{%url 'contact'%}" class="boxed-btn4">Contact Us</a>
+                            <p>Or  <a href="#"> +880 4664 216</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- contact_anipat_end  -->
+
+   
+    
+{%endblock%}

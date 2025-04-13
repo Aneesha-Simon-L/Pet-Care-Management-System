@@ -1,0 +1,24 @@
+<html lang="en">
+<head>
+ <style>
+    @media screen and (max-width: 480px){
+        .card{
+            max-width: 400px;
+            
+        }
+    }
+ </style>   
+</head>
+<body>
+    <div style="background-size:cover; height: 500px;">
+            <div class="card" style="width: 600px; margin: 0px auto; padding: 20px; background-color: white; border: 1px solid #e7e9eb; border-radius: 2%;">
+                <h4>Hi {{name}},</h4>
+                <p>Your payment is due. Please pay the pending amount as soon as possible.</p>
+
+                <h6>complete the payment before {{date_after_10_days}}</h6>
+                <p><a class="text-decoration-none" href="http://127.0.0.1:8000/">login now</a></p>
+              </div>
+       
+    </div>   
+</body>
+</html>

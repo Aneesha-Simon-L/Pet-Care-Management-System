@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block section %}
+<main class="h-full pb-16 overflow-y-auto">
+  <div class="container mx-auto px-4 py-8">
+    <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
+      <div class="px-6 py-4 bg-orange-600 dark:bg-orange-800">
+        <h2 class="text-2xl font-semibold text-white">Registered Pets</h2>
+      </div>
+      <script src="https://cdn.tailwindcss.com"></script>
+      <div class="p-6">
+        {% if pets %}
+          <div class="overflow-x-auto">
+            <table class="min-w-full table-auto border border-gray-200 dark:border-gray-700">
+              <thead>
+                <tr class="bg-green-100 dark:bg-green-700 text-black">
+                  <th class="px-4 py-2 border text-black">Photo</th>
+                  <th class="px-4 py-2 border text-black">Name</th>
+                  <th class="px-4 py-2 border text-black">Category</th>
+                  <th class="px-4 py-2 border text-black">Breed</th>
+                  <th class="px-4 py-2 border text-black">Gender</th>
+                  <th class="px-4 py-2 border text-black">Status</th>
+                  <th class="px-4 py-2 border text-black">Service Type</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for pet in pets %}
+                  <tr class="bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-black">
+                    <td class="px-4 py-2 border text-black">
+                      {% if pet.photo %}
+                        <img src="{{ pet.photo.url }}" class="h-16 w-16 object-cover rounded" alt="Pet Photo">
+                      {% else %}
+                        No photo
+                      {% endif %}
+                    </td>
+                    <td class="px-4 py-2 border text-black">{{ pet.name }}</td>
+                    <td class="px-4 py-2 border text-black">{{ pet.category }}</td>
+                    <td class="px-4 py-2 border text-black">{{ pet.breed }}</td>
+                    <td class="px-4 py-2 border text-black">{{ pet.gender }}</td>
+                    <td class="px-4 py-2 border text-black">{{ pet.status }}</td>
+                    <td class="px-4 py-2 border text-black">{{ pet.service_type }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% else %}
+          <p class="text-black">No pets registered yet.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}
