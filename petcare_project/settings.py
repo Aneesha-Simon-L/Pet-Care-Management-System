@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'authentication',
     'fontawesome_5',
     'customer',
+    'payments',
+    'veterinary',
 ]
 
 MIDDLEWARE = [

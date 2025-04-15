@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block section %}
+<main class="py-12 bg-orange-50 dark:bg-gray-900">
+    <section class="px-4 md:px-16">
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
+        <!-- Title -->
+        <div class="mb-8 text-center">
+            <h2 class="text-3xl font-extrabold text-orange-600">📋 Registered Customers</h2>
+            <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Here is the list of all registered customers.</p>
+        </div>
+
+        <!-- Table -->
+        <div class="overflow-x-auto bg-white shadow-md rounded-lg dark:bg-gray-800">
+            <table class="min-w-full table-auto text-sm text-left text-gray-600 dark:text-gray-300">
+                <thead class="bg-orange-100 dark:bg-gray-700 text-orange-700 dark:text-orange-400 uppercase text-xs">
+                    <tr>
+                        <th class="px-4 py-3">SL NO</th>
+                        <th class="px-4 py-3">Name</th>
+                        <th class="px-4 py-3">Email</th>
+                        <th class="px-4 py-3">Contact</th>
+                        <th class="px-4 py-3">Place</th>
+                        <th class="px-4 py-3">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                    {% for customer in customers %}
+                    <tr class="hover:bg-orange-50 dark:hover:bg-gray-700">
+                        <td class="px-4 py-3">{{ forloop.counter }}</td>
+                        <td class="px-4 py-3 font-medium">{{ customer.name }}</td>
+                        <td class="px-4 py-3">{{ customer.email }}</td>
+                        <td class="px-4 py-3">{{ customer.contact }}</td>
+                        <td class="px-4 py-3">{{ customer.place }}</td>
+                        <td class="px-4 py-3 space-x-2">
+                            <a href="{% url 'customer-update' customer.uuid %}" class="text-blue-600 hover:underline">
+                                <i class="fas fa-pencil-alt"></i> 
+                            </a>
+                            <span class="px-2"> </span> <!-- Slash between the links -->
+                            <a href="{% url 'customer-delete' customer.uuid %}" class="text-red-600 hover:underline">
+                                <i class="fas fa-trash-alt"></i> 
+                            </a>
+                        </td>                                                                   
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="px-4 py-4 text-center text-gray-500 dark:text-gray-400">No customers found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Add Customer Button -->
+        <div class="mt-6 text-right">
+            <a href="{% url 'customer-register' %}" class="inline-block px-6 py-2 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition duration-200">
+                ➕ Add Customer
+            </a>
+        </div>
+    </section>
+</main>
+{% endblock %}

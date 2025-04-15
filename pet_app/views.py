@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 
 # Create your views here.
 
@@ -35,6 +35,22 @@ class ContactusView(View):
     def get(self,request,*args,**kwargs):
 
         return render(request,'pet_app/contact.html')
+    
+    def post(self,request,*args,**kwargs):
+
+        return redirect('contact-success')
+    
+class ContactSuccessView(View):
+
+    def get(self,request,*args,**kwargs):
+
+        return render(request,'pet_app/contact_success.html')
+    
+
+    # def post(self,request,*args,**kwargs):
+
+    #     return redirect('contact-success')
+            
     
 class ServiceView(View):
 
@@ -104,7 +120,9 @@ class PetListView(View):
 
     def get(self, request, *args, **kwargs):
     
-        pets = Pets.objects.all()
+        # pets = Pets.objects.all()/
+
+        pets = Pets.objects.filter(active_status = True)
 
         return render(request, 'pet_app/pet_list.html', {'pets': pets})
 
@@ -118,85 +136,64 @@ class ThankYouView(View):
 
         return render(request, 'pet_app/thank_you.html', {'pet': pet})
 
+# Update View
+class PetUpdateView(View):
 
+    def get(self, request, uuid, *args, **kwargs):
 
-            #     pet.pet_id = get_admission_number()
+        pet = get_object_or_404(Pets, uuid=uuid)
 
-            # # return redirect('pet')
-
-            #     username = pet.email
-
-            #     password = get_password()
-
-            #     print(password)
-
-            #     profile = Profile.objects.create_user(username=username, password=password, role = 'Pet')
-
-            #     pet.profile = profile
-
-            #     pet.save()
-
-            # return redirect('pets-list')
-
+        form = PetRegistrationForm(instance=pet)
         
+        return render(request, 'pet_app/service_registration_form.html', {'form': form})
 
-            # Process the form data
-        #     return redirect('pet-register')
+    def post(self, request, uuid, *args, **kwargs):
+
+        pet = get_object_or_404(Pets, uuid=uuid)
+
+        form = PetRegistrationForm(request.POST, request.FILES, instance=pet)
+
+        if form.is_valid():
+
+            form.save()
+
+            return redirect('pet-list')  
         
-        # return render(request, 'pet_app/registration_form.html', {'form': form})
-
-
-
-# class PetRegistrationView(LoginRequiredMixin, View):
-#     """View for handling pet registration"""
-#     template_name = 'pet_app/pet_registration.html'
+        return render(request, 'pet_app/service_registration_form.html', {'form': form})
     
-#     def get(self, request, *args, **kwargs):
-#         form = PetRegistrationForm()
-#         context = {
-#             'form': form,
-#             'title': 'Register New Pet'
-#         }
-#         return render(request, self.template_name, context)
+# Delete View
+class PetDeleteView(View):
+
+    def get(self, request, uuid, *args, **kwargs):
+
+        pet = get_object_or_404(Pets, uuid=uuid)
+
+        return render(request,'pet_app/pet_confirm_delete.html', {'pet': pet})
+
+    def post(self, request, uuid, *args, **kwargs):
+
+        pet = get_object_or_404(Pets, uuid=uuid)
+
+        pet.active_status = False
+
+        pet.save()
+
+        return redirect('pet-list')
     
+
+# class VetPetListView(View):
+
 #     def post(self, request, *args, **kwargs):
-#         form = PetRegistrationForm(request.POST, request.FILES)
-        
-#         if form.is_valid():
-#             # Associate the pet with the current user's profile
-#             pet = form.save(commit=False)
-#             pet.profile = request.user.profile  # Assuming you have a OneToOne relationship
-#             pet.save()
-            
-#             messages.success(request, 'Pet registration successful!')
-#             return redirect('pet-detail', pk=pet.id)  # Redirect to pet detail page
-        
-#         context = {
-#             'form': form,
-#             'title': 'Register New Pet'
-#         }
-#         return render(request, self.template_name, context)
 
-# class PetDetailView(View):
-#     """View for displaying pet details"""
-#     def get(self, request, pk, *args, **kwargs):
-#         try:
-#             pet = Pets.objects.get(id=pk)
-#             context = {
-#                 'pet': pet,
-#                 'title': f'{pet.name} Details'
-#             }
-#             return render(request, 'pet_app/pet_detail.html', context)
-#         except Pets.DoesNotExist:
-#             messages.error(request, 'Pet not found!')
-#             return redirect('home')
+#         pet = Pets.objects.all()
 
-# class PetListView(LoginRequiredMixin, View):
-#     """View for listing all pets belonging to the current user"""
-#     def get(self, request, *args, **kwargs):
-#         pets = Pets.objects.filter(profile=request.user.profile)
-#         context = {
-#             'pets': pets,
-#             'title': 'My Pets'
-#         }
-#         return render(request, 'pet_app/pet_list.html', context)    
+#         return render(request,'base.html',{'pet':pet})
+
+# class VetPetListView(View):
+
+#     def post(self, request, *args, **kwargs):
+#         # Get all pets with service_type 'VETERINARY'
+#         pets = Pets.objects.filter(service_type='VETERINARY')
+
+#         # Render the page with the filtered pets
+#         return render(request, 'base.html', {'pets': pets})

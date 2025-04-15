@@ -1,0 +1,52 @@
+{%extends 'base.html'%}
+{%block section%}
+<main class="h-full pb-16 overflow-y-auto">
+    <div class="container grid px-6 py-4 mx-auto">
+      <div
+      class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800"
+    >
+    <div class="flex items-center justify-between space-x-6">
+        <div class="mt-4">
+            <h2 class="font-bold font-medium text-gray-700 dark:text-gray-400">Payment Details</h2>
+        </div>
+        {%if payment.status == 'Pending'%}
+      <div class="mt-4">
+        <a href="{%url 'razorpay-view'%}" class="px-5 py-3 font-medium leading-5 
+                          text-white transition-colors duration-150 bg-purple-600 border border-transparent
+                          rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none 
+                          focus:shadow-outline-purple">Pay Now</a>
+      </div>
+
+      {%elif payment.status == 'Success'%}
+      <div class="mt-4">
+        <h3> status:<span style="background-color: greenyellow; color: white;">Paid</span></h3>
+      </div>
+      {%endif%}
+
+    {%if payment.status == 'Success'%}
+    </div>
+    <div class="flex items-center space-x-6 my-6">
+      <span class="font-medium text-gray-700 dark:text-gray-400">Amount:</span>
+      <span class="text-gray-600">{{payment.amount}}</span>
+    </div>
+    <div class="flex items-center space-x-6 my-6">
+      <span class="font-medium text-gray-700 dark:text-gray-400">Paid At:</span>
+      <span class="text-gray-600">{{payment.paid_at|date:"d-m-Y h:i:s"}}</span>
+    </div>
+    <div class="flex items-center space-x-6 my-6">
+      <span class="font-medium text-gray-700 dark:text-gray-400">Payment Mode:</span>
+      <span class="text-gray-600">Online</span>
+    </div>
+    <div class="flex items-center space-x-6 my-6">
+      <span class="font-medium text-gray-700 dark:text-gray-400">Platform:</span>
+      <span class="text-gray-600">Razorpay</span>
+    </div>
+    <div class="flex items-center space-x-6 my-6">
+      <span class="font-medium text-gray-700 dark:text-gray-400">Order ID:</span>
+      <span class="text-gray-600">{{order_id}}</span>
+    </div>
+    {%endif%}
+      </div>
+    </div>
+  </main>
+{%endblock%}

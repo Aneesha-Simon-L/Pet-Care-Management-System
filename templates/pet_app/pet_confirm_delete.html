@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block section %}
+<script src="https://cdn.tailwindcss.com"></script>
+<main class="py-12 bg-orange-50 dark:bg-gray-900 text-center">
+    <div class="px-6 py-10 bg-white dark:bg-gray-800 rounded-lg shadow-lg max-w-md mx-auto">
+        <h2 class="text-xl font-semibold text-orange-600 mb-4">Delete Pet</h2>
+        <p class="text-gray-700 dark:text-gray-300 mb-6">Are you sure you want to delete <strong>{{ pet.name }}</strong>?</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Yes, Delete</button>
+            <a href="{% url 'pet-list' %}" class="ml-4 text-orange-600 hover:underline">Cancel</a>
+        </form>
+    </div>
+</main>
+{% endblock %}

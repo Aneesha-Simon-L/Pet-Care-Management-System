@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block section %}
+{%load check_roles%}
 <main class="h-full pb-16 overflow-y-auto">
   <div class="container mx-auto px-4 py-8">
     <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
@@ -7,6 +8,7 @@
         <h2 class="text-2xl font-semibold text-white">Registered Pets</h2>
       </div>
       <script src="https://cdn.tailwindcss.com"></script>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
       <div class="p-6">
         {% if pets %}
           <div class="overflow-x-auto">
@@ -17,9 +19,14 @@
                   <th class="px-4 py-2 border text-black">Name</th>
                   <th class="px-4 py-2 border text-black">Category</th>
                   <th class="px-4 py-2 border text-black">Breed</th>
+                  <th class="px-4 py-2 border text-black">Age</th>
                   <th class="px-4 py-2 border text-black">Gender</th>
                   <th class="px-4 py-2 border text-black">Status</th>
                   <th class="px-4 py-2 border text-black">Service Type</th>
+                  {%check_user_roles request 'Admin' as allow%}
+                  {%if allow%}
+                  <th class="px-4 py-2 border text-black">Actions</th>
+                  {%endif%}
                 </tr>
               </thead>
               <tbody>
@@ -35,9 +42,22 @@
                     <td class="px-4 py-2 border text-black">{{ pet.name }}</td>
                     <td class="px-4 py-2 border text-black">{{ pet.category }}</td>
                     <td class="px-4 py-2 border text-black">{{ pet.breed }}</td>
+                    <td class="px-4 py-2 border text-black">{{ pet.age }}</td>
                     <td class="px-4 py-2 border text-black">{{ pet.gender }}</td>
                     <td class="px-4 py-2 border text-black">{{ pet.status }}</td>
                     <td class="px-4 py-2 border text-black">{{ pet.service_type }}</td>
+                    {%check_user_roles request 'Admin' as allow%}
+                    {%if allow%}
+                    <td class="px-4 py-3 border text-black space-x-2">
+                      <a href="{% url 'pet-update' pet.uuid %}" class="text-blue-600 hover:underline">
+                          <i class="fas fa-pencil-alt"></i> 
+                      </a>
+                      <span class="px-2"> </span> <!-- Slash between the links -->
+                      <a href="{% url 'pet-delete' pet.uuid %}" class="text-red-600 hover:underline">
+                          <i class="fas fa-trash-alt"></i> 
+                      </a>
+                  </td>  
+                  {%endif%}
                   </tr>
                 {% endfor %}
               </tbody>

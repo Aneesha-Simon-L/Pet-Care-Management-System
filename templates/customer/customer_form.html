@@ -1,136 +1,72 @@
 {% extends 'base.html' %}
-{% load static %}
 
 {% block section %}
-<script src="https://cdn.tailwindcss.com"></script>
-<div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-  <div class="sm:mx-auto sm:w-full sm:max-w-md">
-    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-      Create Your Account
-    </h2>
-    <p class="mt-2 text-center text-sm text-gray-600">
-      Join our pet care community to access all services
-    </p>
-  </div>
+<main class="py-12 bg-orange-50 dark:bg-gray-900">
+    <section class="px-4 md:px-16">
+        <script src="https://cdn.tailwindcss.com"></script>
 
-  <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-    <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-      <form class="space-y-6" method="POST" action="{% url 'customer-register' %}">
-        {% csrf_token %}
-        
-        <!-- Name Field -->
-        <div>
-          <label for="name" class="block text-sm font-medium text-gray-700">
-            Full Name
-          </label>
-          <div class="mt-1">
-            {{ form.name }}
-            {% if form.name.errors %}
-              <p class="mt-2 text-sm text-red-600">{{ form.name.errors.as_text }}</p>
-            {% endif %}
-          </div>
+        <!-- Title -->
+        <div class="mb-8 text-center">
+            <h2 class="text-3xl font-extrabold text-orange-600">🧍‍♀️ Customer Registration</h2>
+            <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Please provide your information to join our pet care service.</p>
         </div>
 
-        <!-- Contact Field -->
-        <div>
-          <label for="contact" class="block text-sm font-medium text-gray-700">
-            Phone Number
-          </label>
-          <div class="mt-1">
-            {{ form.contact }}
-            {% if form.contact.errors %}
-              <p class="mt-2 text-sm text-red-600">{{ form.contact.errors.as_text }}</p>
-            {% endif %}
-          </div>
-        </div>
+        <!-- Form -->
+        <form method="POST" class="space-y-6">
+            {% csrf_token %}
 
-        <!-- Email Field -->
-        <div>
-          <label for="email" class="block text-sm font-medium text-gray-700">
-            Email Address
-          </label>
-          <div class="mt-1">
-            {{ form.email }}
-            {% if form.email.errors %}
-              <p class="mt-2 text-sm text-red-600">{{ form.email.errors.as_text }}</p>
-            {% endif %}
-          </div>
-        </div>
+            <!-- Name -->
+            <div>
+                <label class="block text-sm font-semibold text-orange-600 mb-1">Full Name</label>
+                {{ form.name }}
+                {% if form.name.errors %}
+                  <p class="text-sm text-red-600 mt-1">{{ form.name.errors.as_text }}</p>
+                {% endif %}
+            </div>
 
-        <!-- Place Field -->
-        <div>
-          <label for="place" class="block text-sm font-medium text-gray-700">
-            Location
-          </label>
-          <div class="mt-1">
-            {{ form.place }}
-            {% if form.place.errors %}
-              <p class="mt-2 text-sm text-red-600">{{ form.place.errors.as_text }}</p>
-            {% endif %}
-          </div>
-        </div>
+            <!-- Contact -->
+            <div>
+                <label class="block text-sm font-semibold text-orange-600 mb-1">Phone Number</label>
+                {{ form.contact }}
+                {% if form.contact.errors %}
+                  <p class="text-sm text-red-600 mt-1">{{ form.contact.errors.as_text }}</p>
+                {% endif %}
+            </div>
 
-        <!-- Password Fields (if your model has them) -->
-        {% if form.password1 and form.password2 %}
-        <div>
-          <label for="password1" class="block text-sm font-medium text-gray-700">
-            Password
-          </label>
-          <div class="mt-1">
-            {{ form.password1 }}
-            {% if form.password1.errors %}
-              <p class="mt-2 text-sm text-red-600">{{ form.password1.errors.as_text }}</p>
-            {% endif %}
-          </div>
-        </div>
+            <!-- Email -->
+            <div>
+                <label class="block text-sm font-semibold text-orange-600 mb-1">Email Address</label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                  <p class="text-sm text-red-600 mt-1">{{ form.email.errors.as_text }}</p>
+                {% endif %}
+            </div>
 
-        <div>
-          <label for="password2" class="block text-sm font-medium text-gray-700">
-            Confirm Password
-          </label>
-          <div class="mt-1">
-            {{ form.password2 }}
-            {% if form.password2.errors %}
-              <p class="mt-2 text-sm text-red-600">{{ form.password2.errors.as_text }}</p>
-            {% endif %}
-          </div>
-        </div>
-        {% endif %}
+            <!-- Place -->
+            <div>
+                <label class="block text-sm font-semibold text-orange-600 mb-1">Location / Place</label>
+                {{ form.place }}
+                {% if form.place.errors %}
+                  <p class="text-sm text-red-600 mt-1">{{ form.place.errors.as_text }}</p>
+                {% endif %}
+            </div>
 
-        <div>
-          <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-            Register
-          </button>
-        </div>
-      </form>
+            <!-- Submit -->
+            <div class="pt-4 text-right">
+                <button type="submit"
+                    class="px-6 py-2 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition duration-200">
+                    Register
+                </button>
+            </div>
+        </form>
 
-      <div class="mt-6">
-        <div class="relative">
-          <div class="absolute inset-0 flex items-center">
-            <div class="w-full border-t border-gray-300"></div>
-          </div>
-          <div class="relative flex justify-center text-sm">
-            <span class="px-2 bg-white text-gray-500">
-              Already have an account?
-            </span>
-          </div>
+        <!-- Already registered? -->
+        <div class="mt-6 text-center">
+            <p class="text-sm text-gray-600 dark:text-gray-300">
+                Already have an account?
+                <a href="{% url 'login' %}" class="text-orange-600 hover:text-orange-700 font-medium">Sign in</a>
+            </p>
         </div>
-
-        <div class="mt-6">
-          <a href="{% url 'login' %}" class="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-            Sign in instead
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Add this if you want to toggle password visibility -->
-<script>
-  function togglePasswordVisibility(fieldId) {
-    const field = document.getElementById(fieldId);
-    field.type = field.type === 'password' ? 'text' : 'password';
-  }
-</script>
+    </section>
+</main>
 {% endblock %}

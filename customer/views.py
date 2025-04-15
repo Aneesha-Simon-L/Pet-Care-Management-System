@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect, get_object_or_404
 
 # Create your views here.
 
@@ -21,6 +21,8 @@ from django.conf import settings
 import threading
 
 import datetime
+
+from . models import Customer
 
 class CustomerView(View):
     
@@ -77,3 +79,64 @@ class CustomerView(View):
 
             return render(request,'customer/customer_form.html',context=data)
         
+class CustomerListView(View):
+
+    def get(self, request, *args, **kwargs):
+    
+        # customers = Customer.objects.all()
+
+        customers = Customer.objects.filter(active_status = True)
+
+        return render(request, 'customer/customer_list.html', {'customers': customers})
+    
+# Update View
+class CustomerUpdateView(View):
+
+    def get(self, request, uuid, *args, **kwargs):
+       
+        customer = get_object_or_404(Customer, uuid=uuid)            # Fetch customer using uuid
+        
+        form = CustomerRegisterForm(instance=customer)
+
+        return render(request, 'customer/customer_form.html', {'form': form})
+
+    def post(self, request, uuid, *args, **kwargs):
+        
+        customer = get_object_or_404(Customer, uuid=uuid)           
+
+        form = CustomerRegisterForm(request.POST, request.FILES, instance=customer)
+
+        if form.is_valid():
+
+            form.save()
+            
+            return redirect('customer-list')         # Redirect to customer list after saving
+
+        return render(request, 'customer/customer_form.html', {'form': form})
+
+# Delete View
+class CustomerDeleteView(View):
+
+    def get(self, request, uuid, *args, **kwargs):
+        
+        customer = get_object_or_404(Customer, uuid=uuid)
+
+        return render(request, 'customer/customer_confirm_delete.html', {'customer': customer})
+    
+    def post(self, request, uuid, *args, **kwargs):
+
+        customers = get_object_or_404(Customer, uuid=uuid)
+
+        customers.active_status = False
+        
+        customers.save()
+
+        return redirect('customer-list')
+
+    # def post(self, request, uuid, *args, **kwargs):
+        
+    #     customer = get_object_or_404(Customer, uuid=uuid,active_status = False)
+
+    #     customer.delete()
+        
+    #     return redirect('customer-list')        # Redirect to customer list after deletion

@@ -65,7 +65,7 @@ class PetRegistrationForm(forms.ModelForm):
         return cleaned_data
 
     def __init__(self,*args,**kwargs):
-
+        
         super(PetRegistrationForm, self).__init__(*args,**kwargs)
         
         # Make photo required only for new pets

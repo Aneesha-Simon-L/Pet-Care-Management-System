@@ -48,7 +48,7 @@ class LoginView(View):
                 
                 elif role in ['Vet']:
 
-                    return redirect('pet-list')
+                    return redirect('home')
         #             return redirect('home')
                 
                 elif role in ['Customer']:
