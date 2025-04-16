@@ -24,8 +24,8 @@
     <link rel="stylesheet" href="/static/css/animate.css">
     <link rel="stylesheet" href="/static/css/slicknav.css">
     <link rel="stylesheet" href="/static/css/style.css">
-    <!-- <link rel="stylesheet" href="/static/css/tailwind.css">
-    <link rel="stylesheet" href="/static/css/tailwind.output.css"> -->
+   <!-- <link rel="stylesheet" href="/static/css/tailwind.css"> -->
+    <!-- <link rel="stylesheet" href="/static/css/tailwind.output.css"> -->
     <!-- <link rel="stylesheet" href="css/responsive.css"> -->
 
 
@@ -35,7 +35,8 @@
        <!-- Template Main CSS File -->
   <link href="/static/css/style.css" rel="stylesheet">
 
-  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@unocss/runtime"></script>
 </head>
 
 <body>
@@ -89,22 +90,28 @@
                             <div class="main-menu  d-none d-lg-block">
                                 <nav>
                                     <ul id="navigation">
-                                        <li><a  href="{%url 'home'%}">home</a></li>
-                                        <li><a href="{%url 'about'%}">about</a></li>
-                                        <li><a href="{%url 'service'%}">services</a></li>
+                                        <li><a  href="{%url 'home'%}">Home</a></li>
+                                        <li><a href="{%url 'about'%}">About</a></li>
+                                        <li><a href="{%url 'service'%}">Services</a></li>
+                                        
                                         {%if user.is_authenticated%}
                                         {%check_user_roles request 'Admin' as allow%}
                                         {%if allow%}
                                         <li><a href="{%url 'customer-list'%}">Customers</a></li>
                                         {%endif%}
                                         {%endif%}
+
                                         {%if user.is_authenticated%}
                                         {%check_user_roles request 'Admin,Vet' as allow%}
                                         {%if allow%}
                                         <li><a href="{%url 'pet-list'%}">Pets</a></li>
                                         {%endif%}
                                         {%endif%}
+
+                                        {%if not user.is_authenticated%}
                                         <li><a href="{%url 'login'%}">Login</a></li>
+                                        {%endif%}
+
                                         <li><a href="{%url 'contact'%}">Contact</a></li>
                                         <!-- Profile Dropdown -->
       <li class="relative">

@@ -2,7 +2,7 @@
 {%load static%}
 {%block section%}
 {%load check_roles%}
-<script src="https://cdn.tailwindcss.com"></script>
+<!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <!-- bradcam_area_start -->
     <div class="bradcam_area breadcam_bg">
         <div class="container">
@@ -130,7 +130,7 @@
                     <a href="{% url 'service-register' %}"  class="bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-6 rounded-xl transition duration-300">
                         Service Register Now
                     </a>
-                 </div >
+                </div >
                 {%endif%}
                 {%endif%}
                 {%if not user.is_authenticated%}

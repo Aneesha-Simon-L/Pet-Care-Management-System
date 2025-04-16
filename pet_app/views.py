@@ -1,7 +1,5 @@
 from django.shortcuts import render,redirect,get_object_or_404
 
-# Create your views here.
-
 from django . views . generic import View
 
 from django . db import transaction
@@ -17,6 +15,8 @@ from .utility import sent_email
 from authentication.models import Profile
 
 import threading
+
+# Create your views here.
 
 class HomeView(View):
 
@@ -46,12 +46,10 @@ class ContactSuccessView(View):
 
         return render(request,'pet_app/contact_success.html')
     
-
     # def post(self,request,*args,**kwargs):
 
     #     return redirect('contact-success')
-            
-    
+                
 class ServiceView(View):
 
     def get(self,request,*args,**kwargs):
@@ -109,7 +107,7 @@ class PetRegistrationView(View):
                 thread.start()
 
                 return redirect('thank-you',pet_id=pet.id)          #  redirect to thank-you page with pet_id
-
+            
         else:
 
             data = {'form': form}    

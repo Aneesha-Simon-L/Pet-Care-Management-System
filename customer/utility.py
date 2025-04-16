@@ -2,7 +2,6 @@ import uuid
 
 import string
 
-
 import random
 
 from .models import Customer
