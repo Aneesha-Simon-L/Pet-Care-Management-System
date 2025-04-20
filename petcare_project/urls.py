@@ -23,9 +23,13 @@ from django.urls import path,include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    
     path('',include('pet_app.urls')),
+
     path('',include('authentication.urls')),
+
     path('customer/',include('customer.urls')),
+    
     path('payments/',include('payments.urls')),
 ]
 

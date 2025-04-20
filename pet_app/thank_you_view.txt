@@ -1,0 +1,9 @@
+class ThankYouView(View):
+
+    def get(self, request,*args,**kwargs):
+
+        pet_id = kwargs.get('pet_id')            #  get pet_id from URL
+
+        pet = Pets.objects.get(id=pet_id)
+
+        return render(request, 'pet_app/thank_you.html', {'pet': pet})

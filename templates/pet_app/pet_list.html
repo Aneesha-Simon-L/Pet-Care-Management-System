@@ -22,6 +22,7 @@
                   <th class="px-4 py-2 border text-black">Age</th>
                   <th class="px-4 py-2 border text-black">Gender</th>
                   <th class="px-4 py-2 border text-black">Status</th>
+                  <th class="px-4 py-2 border text-black">Appointment Status</th>
                   <th class="px-4 py-2 border text-black">Service Type</th>
                   {%check_user_roles request 'Admin' as allow%}
                   {%if allow%}
@@ -45,6 +46,20 @@
                     <td class="px-4 py-2 border text-black">{{ pet.age }}</td>
                     <td class="px-4 py-2 border text-black">{{ pet.gender }}</td>
                     <td class="px-4 py-2 border text-black">{{ pet.status }}</td>
+                    <td class="px-4 py-2 border text-black">
+                      <form method="POST" action="{% url 'update-status' pet.uuid %}">
+                          {% csrf_token %}
+                          <select name="appointment_status">
+                            <option value="PENDING" {% if pet.appointment_status == "PENDING" %}selected{% endif %}>Pending</option>
+                            <option value="SCHEDULED" {% if pet.appointment_status == "SCHEDULED" %}selected{% endif %}>Scheduled</option>
+                            <option value="APPROVED" {% if pet.appointment_status == "APPROVED" %}selected{% endif %}>Approved</option>
+                            <option value="REJECTED" {% if pet.appointment_status == "REJECTED" %}selected{% endif %}>Rejected</option>
+                          </select>
+                          <button type="submit">Update</button>
+                        </form>
+                    </td>
+
+
                     <td class="px-4 py-2 border text-black">{{ pet.service_type }}</td>
                     {%check_user_roles request 'Admin' as allow%}
                     {%if allow%}

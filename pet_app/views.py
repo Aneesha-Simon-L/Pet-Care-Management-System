@@ -16,6 +16,12 @@ from authentication.models import Profile
 
 import threading
 
+from django.views.decorators.csrf import csrf_exempt
+
+from django.http import HttpResponseBadRequest
+
+from payments . models import Payment
+
 # Create your views here.
 
 class HomeView(View):
@@ -84,11 +90,11 @@ class PetRegistrationView(View):
 
                 pet.save()
 
+                Payment.objects.create(pet=pet,amount=100,customer=pet.customer)
+                
                 service  =  pet.service_type
 
                 # customer = customer_form.save()
-
-                # customer = 
 
                 subject = 'Service Credentials'
 
@@ -106,38 +112,65 @@ class PetRegistrationView(View):
 
                 thread.start()
 
-                return redirect('thank-you',pet_id=pet.id)          #  redirect to thank-you page with pet_id
+                return redirect('razorpay',uuid=pet.uuid)          
             
         else:
+
+            print(form.errors)
 
             data = {'form': form}    
 
             return render(request,'pet_app/service_registration_form.html',context=data)
 
+# class PetListView(View):
+
+#     def get(self, request,*args,**kwargs):
+    
+#         # pets = Pets.objects.all()
+
+#         pets = Pets.objects.filter(active_status = True)
+
+#         return render(request, 'pet_app/pet_list.html',{'pets': pets})
+
 class PetListView(View):
 
-    def get(self, request, *args, **kwargs):
-    
-        # pets = Pets.objects.all()/
+    def get(self,request,*args,**kwargs):
 
-        pets = Pets.objects.filter(active_status = True)
+        user = request.user
 
-        return render(request, 'pet_app/pet_list.html', {'pets': pets})
+        print(user)
 
+        if user.role == 'Admin':
+
+            # Admin sees all pets
+            pets = Pets.objects.all().order_by('-created_at')
+
+        elif user.role == 'Vet':
+
+            # Vet sees only VETENARY or VACCINATION pets with active_status=True
+            pets = Pets.objects.filter(active_status=True, service_type__in=['VETERINARY','VACCINATION']).order_by('-created_at')
+
+        else:
+
+            # Other users see only active pets
+            pets = Pets.objects.none()
+
+        return render(request, 'pet_app/pet_list.html',{'pets': pets})
+            
 class ThankYouView(View):
 
     def get(self, request, *args, **kwargs):
 
-        pet_id = kwargs.get('pet_id')            #  get pet_id from URL
+        uuid = kwargs.get('uuid')
 
-        pet = Pets.objects.get(id=pet_id)
+        pet = get_object_or_404(Pets, uuid=uuid)
 
-        return render(request, 'pet_app/thank_you.html', {'pet': pet})
+        return render(request, 'pet_app/thank_you.html',{'pet':pet})
 
 # Update View
 class PetUpdateView(View):
 
-    def get(self, request, uuid, *args, **kwargs):
+    def get(self,request,uuid,*args,**kwargs):
 
         pet = get_object_or_404(Pets, uuid=uuid)
 
@@ -178,20 +211,43 @@ class PetDeleteView(View):
 
         return redirect('pet-list')
     
+@csrf_exempt
+def update_pet_status(request, uuid):
 
-# class VetPetListView(View):
+    if request.method == "POST":
 
-#     def post(self, request, *args, **kwargs):
+        pet = get_object_or_404(Pets, uuid=uuid)
 
-#         pet = Pets.objects.all()
+        new_status = request.POST.get('appointment_status')
 
-#         return render(request,'base.html',{'pet':pet})
+        if new_status:
 
-# class VetPetListView(View):
+            pet.appointment_status = new_status
 
-#     def post(self, request, *args, **kwargs):
-#         # Get all pets with service_type 'VETERINARY'
-#         pets = Pets.objects.filter(service_type='VETERINARY')
+            pet.save()
 
-#         # Render the page with the filtered pets
-#         return render(request, 'base.html', {'pets': pets})
+            if new_status == 'REJECTED':
+
+                user_role = request.user.role   # Assuming user has related Profile model
+
+                if user_role in ['Admin']:
+
+                    subject = 'Appointment Rejected'
+
+                    recipients = [pet.customer.email]
+
+                    print(pet.customer.email)  # For debugging/logging
+
+                    template = 'email/rejected.html'  # Your cancellation email template
+
+                    context = {'name': pet.customer.name,'category': pet.category,'service_type':pet.service_type,'appointment_status': pet.appointment_status,}
+
+                    thread = threading.Thread(target=sent_email, args=(subject, recipients, template, context))
+
+                    thread.start()
+
+            return redirect('pet-list')
+
+        return HttpResponseBadRequest("Missing status value.")
+
+    return HttpResponseBadRequest("Invalid request method.")

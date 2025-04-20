@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Appointment Rejected</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 30px; color: #333;">
+    <div style="max-width: 600px; margin: auto; background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        
+        <h2 style="color: #d9534f;">Appointment Rejected</h2>
+        
+        <p>Dear {{ name }},</p>
+
+        <p>We regret to inform you that your pet service appointment has been <strong>rejected</strong>.</p>
+
+        <p><strong>Details:</strong></p>
+        <ul>
+            <li><strong>Pet Category:</strong> {{ category }}</li>
+            <li><strong>Service Type:</strong> {{ service_type }}</li>
+            <li><strong>Appointment Status:</strong> {{ appointment_status }}</li>
+        </ul>
+
+        <p>If you believe this was a mistake or you need further assistance, feel free to contact our support team.</p>
+        
+        <p>If payment was made, it will be refunded shortly.</p>
+
+        <p>Thank you for understanding.</p>
+
+        <p style="margin-top: 30px;">Sincerely,<br><strong>The PetCare Team</strong></p>
+    </div>
+</body>
+</html>

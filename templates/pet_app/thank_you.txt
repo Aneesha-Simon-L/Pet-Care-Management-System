@@ -20,12 +20,10 @@
 
       <!-- Pay Now Button -->
 
-      <a href="{%url 'razorpay'%}">
-        <button class="bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded">
-          Pay Now
-        </button>
-      </a>
-      
+      <button id="pay-btn" 
+        class="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition">
+        Pay Now
+      </button>
 
     <!-- <div class="mt-4 lg:mt-0 lg:ml-6">
       <a href="" 
@@ -43,3 +41,32 @@
   </div>
 </main>
 {% endblock %}
+
+
+<!-- Pet Detail Card -->
+<!-- <div class="bg-gray-100 dark:bg-gray-700 p-6 text-left">
+  <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between"> -->
+    <!-- Pet Details -->
+    <!-- <div class="space-y-2 lg:w-2/3">
+      <p><strong class="text-black dark:text-white">Name:</strong> {{ pet.name }}</p>
+      <p><strong class="text-black dark:text-white">Category:</strong> {{ pet.category }}</p>
+      <p><strong class="text-black dark:text-white">Breed:</strong> {{ pet.breed }}</p>
+      <p><strong class="text-black dark:text-white">Age:</strong> {{ pet.age }}</p>
+      <p><strong class="text-black dark:text-white">Gender:</strong> {{ pet.gender }}</p>
+      <p><strong class="text-black dark:text-white">Status:</strong> {{ pet.status }}</p>
+    </div> -->
+
+    <!-- Pay Now Button -->
+    <!-- <div class="mt-4 lg:mt-0 lg:ml-6">
+      <a href="{% url 'payment' pet.id %}" 
+         class="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition">
+        Pay Now
+      </a>
+    </div>
+  </div> -->
+
+  <!-- {% if pet.photo %}
+  <img src="{{ pet.photo.url }}" alt="Pet Photo"
+       class="mt-6 max-h-96 w-auto object-contain rounded mx-auto"> 
+  {% endif %}
+</div> -->

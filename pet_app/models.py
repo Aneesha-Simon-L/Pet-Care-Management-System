@@ -48,6 +48,16 @@ class PetStatusChoices(models.TextChoices):
 
     FOSTER = 'FOSTER', 'FOSTER'
 
+class AppointmentStatus(models.TextChoices):
+
+    PENDING = 'PENDING', 'PENDING'
+
+    SCHEDULED = 'SCHEDULED', 'SCHEDULED'
+
+    APPROVED = 'APPROVED', 'APPROVED'
+
+    REJECTED = 'REJECTED', 'REJECTED'
+
 class PetServiceChoices(models.TextChoices):
 
     GROOMING = 'GROOMING', 'GROOMING'
@@ -84,7 +94,7 @@ class Pets(BaseClass):
 
     registration_date = models.DateField(auto_now_add=True)
 
-    adm_number = models.CharField(max_length=50)
+    adm_number = models.CharField(max_length=50,null=True, blank=True)
 
     last_vet_visit = models.DateField(null=True, blank=True)
     
@@ -93,6 +103,8 @@ class Pets(BaseClass):
     service_type = models.CharField(max_length=20,choices=PetServiceChoices.choices)
 
     appointment_date = models.DateField()
+
+    appointment_status = models.CharField(max_length=50,choices=AppointmentStatus.choices,default='SCHEDULED')
 
     def __str__(self):
 

@@ -12,7 +12,9 @@ class PaymentStatusChoices(models.TextChoices):
 
 class Payment(BaseClass):
 
-    customer = models.OneToOneField('pet_app.Pets',on_delete=models.CASCADE)
+    customer = models.ForeignKey('customer.Customer',on_delete=models.CASCADE)
+
+    pet = models.ForeignKey('pet_app.Pets', on_delete=models.CASCADE)
 
     amount = models.FloatField()
 
@@ -22,13 +24,15 @@ class Payment(BaseClass):
 
     def __str__(self):
 
-        return f'{self.customer.name}'          # doubt
+        return f'{self.customer.name}'          
     
     class Meta:
         
         verbose_name = 'Payments'
 
         verbose_name_plural ='Payments'
+
+        ordering = ['-id']
 
 class Transactions(BaseClass):
 
@@ -48,7 +52,7 @@ class Transactions(BaseClass):
 
     def __str__(self):
 
-        return f'{self.payment.pet.name} {self.status}'         # doubt
+        return f'{self.payment.customer.name} {self.status}'         # doubt
 
     class Meta:
 
@@ -56,3 +60,4 @@ class Transactions(BaseClass):
 
         verbose_name_plural = 'Transactions'
 
+        ordering = ['-id']

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block section %}
+    <div class="container mx-auto my-8">
+        <h2 class="text-3xl font-semibold text-center mb-6">Payments</h2>
+
+        <div class="overflow-x-auto shadow-md sm:rounded-lg">
+            <table class="min-w-full text-sm text-gray-700">
+                <thead class="text-xs text-gray-800 uppercase bg-orange-400">
+                    <tr>
+                        <th class="px-6 py-3 text-center">Customer</th>
+                        <th class="px-6 py-3 text-center">Pet</th>
+                        <th class="px-6 py-3 text-center">Service Type</th>
+                        <th class="px-6 py-3 text-center">Amount</th>
+                        <th class="px-6 py-3 text-center">Status</th>
+                        <th class="px-6 py-3 text-center">Paid At</th>
+                        <th class="px-6 py-3 text-center">Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for payment in payments %}
+                        <tr class="bg-white border-b hover:bg-gray-50">
+                            <td class="px-6 py-4 text-center">{{ payment.customer.name }}</td>
+                            <td class="px-6 py-4 text-center">{{ payment.pet.category }}</td>
+                            <td class="px-6 py-4 text-center">{{ payment.pet.service_type }}</td>
+                            <td class="px-6 py-4 text-center">₹{{ payment.amount }}</td>
+                            <td class="px-6 py-4 text-center">
+                                <span class="inline-block px-3 py-1 text-xs font-semibold rounded-full 
+                                    {% if payment.status == 'Pending' %}bg-yellow-300 text-yellow-800{% elif payment.status == 'Success' %}bg-green-300 text-green-800{% else %}bg-red-300 text-red-800{% endif %}">
+                                    {{ payment.status }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 text-center">{{ payment.paid_at|date:"d M Y, H:i" }}</td>
+                            <td class="px-6 py-4 text-center">
+                                <a href="{% url 'payment-details' payment.pet.uuid %}" class="text-blue-500 hover:text-blue-700">View</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
