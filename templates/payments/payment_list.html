@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block section %}
+{%load check_roles%}
     <div class="container mx-auto my-8">
         <h2 class="text-3xl font-semibold text-center mb-6">Payments</h2>
 
@@ -7,7 +8,14 @@
             <table class="min-w-full text-sm text-gray-700">
                 <thead class="text-xs text-gray-800 uppercase bg-orange-400">
                     <tr>
+                        {%check_user_roles request 'Admin' as allow%}
+                        {%if allow%}
                         <th class="px-6 py-3 text-center">Customer</th>
+                        {%endif%}
+                        {%check_user_roles request 'Customer' as allow%}
+                        {%if allow%}
+                        <th class="px-6 py-3 text-center">Name</th>
+                        {%endif%}
                         <th class="px-6 py-3 text-center">Pet</th>
                         <th class="px-6 py-3 text-center">Service Type</th>
                         <th class="px-6 py-3 text-center">Amount</th>

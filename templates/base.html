@@ -28,10 +28,6 @@
     <!-- <link rel="stylesheet" href="/static/css/tailwind.output.css"> -->
     <!-- <link rel="stylesheet" href="css/responsive.css"> -->
 
-
-
-  
-
        <!-- Template Main CSS File -->
   <link href="/static/css/style.css" rel="stylesheet">
 
@@ -43,7 +39,20 @@
     <!--[if lte IE 9]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
         <![endif]-->
-
+<!-- Preloader -->
+<div id="preloader" class="fixed inset-0 bg-white dark:bg-gray-900 flex flex-col items-center justify-center z-50 space-y-4 transition-opacity duration-500 ease-in-out">
+  
+    <!-- Branding Logo -->
+    <div class="h-16 w-16 rounded-full overflow-hidden border border-gray-300">
+      <img src="/static/img/pet-love.jpg" alt="Brand Logo" class="h-full w-full object-cover" />
+    </div>
+  
+    <!-- Spinner -->
+    <div class="animate-spin rounded-full h-14 w-14 border-t-4 border-b-4 border-orange-600"></div>
+  
+    <!-- Loading Text -->
+    <p class="text-dark-600 dark:text-dark-300 text-sm font-medium">Loading, please wait... Welcome to Petcare Service</p>
+  </div>
     <header>
         <div class="header-area ">
             <div class="header-top_area">
@@ -52,7 +61,7 @@
                         <div class="col-lg-6 col-md-8">
                             <div class="short_contact_list">
                                 <ul>
-                                    <li><a href="#">+880 4664 216</a></li>
+                                    <li><a href="#">98********</a></li>
                                     <li><a href="#">Mon - Sat 10:00 - 7:00</a></li>
                                 </ul>
                             </div>
@@ -114,10 +123,17 @@
 
                                         <li><a href="{%url 'contact'%}">Contact</a></li>
                                         {%if user.is_authenticated%}
+                                        {%check_user_roles request 'Admin,Customer' as allow%}
+                                        {%if allow%}
                                         <li><a href="{%url 'payment-list'%}">Payments</a></li>
                                         {%endif%}
+                                        {%endif%}
+                                        
                                         <!-- Profile Dropdown -->
-      <li class="relative">
+    {%if user.is_authenticated%}
+    {%check_user_roles request 'Admin,Vet' as allow%}
+    {%if allow%}
+        <li class="relative">
         <button
           class="flex items-center space-x-2 p-2 rounded-full focus:outline-none hover:bg-orange-600 transition"
           onclick="toggleProfileMenu()"
@@ -144,6 +160,40 @@
           </li>
         </ul>
       </li>
+      {%endif%}
+      
+
+      {%check_user_roles request 'Customer' as allow%}
+      {%if allow%}
+        <li class="relative">
+        <button
+          class="flex items-center space-x-2 p-2 rounded-full focus:outline-none hover:bg-orange-600 transition"
+          onclick="toggleProfileMenu()"
+        >
+          <img
+            class="w-10 h-10 rounded-full object-cover border-2 border-gray-300"
+            src="/static/img/paw-pet.jpg"
+            alt="User Profile"
+          />
+          <p class="text-black font-medium hidden md:block">{{ customer_name }} </p>
+        </button>
+        <ul
+          id="profileMenu"
+          class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-50"
+        >
+          <li>
+            <a class="block px-4 py-2 text-black hover:bg-gray-100" href="#">Profile</a>
+          </li>
+          <li>
+            <a class="block px-4 py-2 text-black hover:bg-gray-100" href="#">Settings</a>
+          </li>
+          <li>
+            <a class="block px-4 py-2 text-black hover:text-red-500 hover:bg-gray-100" href="{% url 'logout' %}">Log out</a>
+          </li>
+        </ul>
+      </li>
+      {%endif%}
+      {%endif%}
     </ul>
                                     </ul>
                                 </nav>
@@ -170,9 +220,9 @@
                             Contact Us
                         </h3>
                         <ul class="address_line">
-                            <li>+555 0000 565</li>
-                            <li><a href="#">Demomail@gmail.Com</a></li>
-                            <li>700, Green Lane, New York, USA</li>
+                            <li>98********</li>
+                            <li><a href="#">contact@petcare.Com</a></li>
+                            <li>TVM, Kerala, India</li>
                         </ul>
                     </div>
                 </div>
@@ -200,8 +250,8 @@
                         <ul class="links">
                             <li><a href="{%url 'about'%}">About Us</a></li>
                             <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Terms of Service</a></li>
-                            <li><a href="#">Login info</a></li>
+                            <li><a href="{%url 'service'%}">Terms of Service</a></li>
+                            <li><a href="{%url 'login'%}">Login info</a></li>
                             <li><a href="#">Knowledge Base</a></li>
                         </ul>
                     </div>
@@ -210,11 +260,11 @@
                     <div class="footer_widget">
                         <div class="footer_logo">
                             <a href="#">
-                                <img src="/static/img/logo.png" alt="">
+                                <img src="/static/img/pcm-logo.png" alt="">
                             </a>
                         </div>
-                        <p class="address_text">239 E 5th St, New York 
-                            NY 10003, USA
+                        <p class="address_text">Kazhakoottam, Trivandrum 
+                            Kerala, India
                         </p>
                         <div class="socail_links">
                             <ul>
@@ -331,6 +381,15 @@
       if (!button.contains(e.target) && !menu.contains(e.target)) {
         menu.classList.add('hidden');
       }
+    });
+  </script>
+  <script>
+    window.addEventListener('load', () => {
+      const preloader = document.getElementById('preloader');
+      preloader.classList.add('opacity-0');
+      setTimeout(() => {
+        preloader.style.display = 'none';
+      }, 500);
     });
   </script>
 </body>

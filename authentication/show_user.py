@@ -11,3 +11,4 @@ def show_user_name(request):
     print(name)
 
     return {'name_of_user': name}
+

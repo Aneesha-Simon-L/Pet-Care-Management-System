@@ -90,7 +90,7 @@ class PetRegistrationView(View):
 
                 pet.save()
 
-                Payment.objects.create(pet=pet,amount=100,customer=pet.customer)
+                Payment.objects.create(pet=pet,amount=120,customer=pet.customer)
                 
                 service  =  pet.service_type
 
@@ -112,7 +112,7 @@ class PetRegistrationView(View):
 
                 thread.start()
 
-                return redirect('razorpay',uuid=pet.uuid)          
+                return redirect('thank-you',uuid=pet.uuid)          
             
         else:
 
@@ -121,16 +121,6 @@ class PetRegistrationView(View):
             data = {'form': form}    
 
             return render(request,'pet_app/service_registration_form.html',context=data)
-
-# class PetListView(View):
-
-#     def get(self, request,*args,**kwargs):
-    
-#         # pets = Pets.objects.all()
-
-#         pets = Pets.objects.filter(active_status = True)
-
-#         return render(request, 'pet_app/pet_list.html',{'pets': pets})
 
 class PetListView(View):
 
@@ -143,7 +133,7 @@ class PetListView(View):
         if user.role == 'Admin':
 
             # Admin sees all pets
-            pets = Pets.objects.all().order_by('-created_at')
+            pets = Pets.objects.filter(active_status=True).order_by('-created_at')
 
         elif user.role == 'Vet':
 
@@ -166,7 +156,7 @@ class ThankYouView(View):
         pet = get_object_or_404(Pets, uuid=uuid)
 
         return render(request, 'pet_app/thank_you.html',{'pet':pet})
-
+    
 # Update View
 class PetUpdateView(View):
 
@@ -210,6 +200,8 @@ class PetDeleteView(View):
         pet.save()
 
         return redirect('pet-list')
+    
+
     
 @csrf_exempt
 def update_pet_status(request, uuid):

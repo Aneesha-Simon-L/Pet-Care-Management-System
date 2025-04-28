@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verify OTP - Petcare Service Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center" style="background-image: url('/static/img/pet-login.jpg')">
+
+  <div class="w-full max-w-md p-8 space-y-6 bg-white bg-opacity-90 rounded-lg shadow-md">
+    <form method="POST" class="space-y-4">
+      {% csrf_token %}
+      <h2 class="text-2xl font-bold text-center text-black-800 dark:text-black-200">Verify OTP</h2>
+      <div>
+        <label for="otp" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Enter the OTP sent to your email:</label>
+        <input 
+          type="text" 
+          name="otp" 
+          required 
+          placeholder="6-digit OTP"
+          class="block w-full mt-1 p-2 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400 dark:bg-gray-700 dark:border-gray-600 dark:text-white" 
+        />
+      </div>
+      <button 
+        type="submit"
+        class="w-full px-4 py-2 text-sm font-semibold text-white bg-orange-600 rounded-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-400"
+      >
+        Verify
+      </button>
+    </form>
+    <div class="text-center text-sm text-gray-600 dark:text-gray-400">
+      <a href="{% url 'login' %}" class="text-orange-600 hover:underline dark:text-orange-400">Back to Login</a>
+    </div>
+    <!-- Display messages -->
+    {% if messages %}
+      <div class="space-y-4">
+        {% for message in messages %}
+          <div class="p-4 rounded-md {{ message.tags }}">
+            <p class="text-center text-sm font-semibold">{{ message }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+
+</body>
+</html>

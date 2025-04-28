@@ -12,10 +12,6 @@ class RoleChoices(models.TextChoices):
 
     CUSTOMER = 'Customer', 'Customer'
 
-    # SALES = 'Sales', 'Sales'
-
-    # PET_TRAINER = 'Pet Trainer', 'Pet Trainer'
-
 class Profile(AbstractUser):
 
     role = models.CharField(max_length=30,choices=RoleChoices.choices)

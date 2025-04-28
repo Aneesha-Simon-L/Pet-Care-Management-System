@@ -15,7 +15,7 @@ from django.template.loader import  render_to_string
 from django.conf import settings
 
 def get_password():
-
+ 
     password = ''.join(random.choices(string.ascii_letters + string.digits,k=8))
 
     return password

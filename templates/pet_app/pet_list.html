@@ -1,88 +1,79 @@
+
 {% extends 'base.html' %}
-{% block section %}
 {%load check_roles%}
-<main class="h-full pb-16 overflow-y-auto">
-  <div class="container mx-auto px-4 py-8">
-    <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
-      <div class="px-6 py-4 bg-orange-600 dark:bg-orange-800">
-        <h2 class="text-2xl font-semibold text-white">Registered Pets</h2>
-      </div>
-      <!-- <script src="https://cdn.tailwindcss.com"></script> -->
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-      <div class="p-6">
-        {% if pets %}
-          <div class="overflow-x-auto">
-            <table class="min-w-full table-auto border border-gray-200 dark:border-gray-700">
-              <thead>
-                <tr class="bg-green-100 dark:bg-green-700 text-black">
-                  <th class="px-4 py-2 border text-black">Photo</th>
-                  <th class="px-4 py-2 border text-black">Name</th>
-                  <th class="px-4 py-2 border text-black">Category</th>
-                  <th class="px-4 py-2 border text-black">Breed</th>
-                  <th class="px-4 py-2 border text-black">Age</th>
-                  <th class="px-4 py-2 border text-black">Gender</th>
-                  <th class="px-4 py-2 border text-black">Status</th>
-                  <th class="px-4 py-2 border text-black">Appointment Status</th>
-                  <th class="px-4 py-2 border text-black">Service Type</th>
-                  {%check_user_roles request 'Admin' as allow%}
-                  {%if allow%}
-                  <th class="px-4 py-2 border text-black">Actions</th>
-                  {%endif%}
-                </tr>
-              </thead>
-              <tbody>
-                {% for pet in pets %}
-                  <tr class="bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-black">
-                    <td class="px-4 py-2 border text-black">
-                      {% if pet.photo %}
-                        <img src="{{ pet.photo.url }}" class="h-16 w-16 object-cover rounded" alt="Pet Photo">
-                      {% else %}
-                        No photo
-                      {% endif %}
-                    </td>
-                    <td class="px-4 py-2 border text-black">{{ pet.name }}</td>
-                    <td class="px-4 py-2 border text-black">{{ pet.category }}</td>
-                    <td class="px-4 py-2 border text-black">{{ pet.breed }}</td>
-                    <td class="px-4 py-2 border text-black">{{ pet.age }}</td>
-                    <td class="px-4 py-2 border text-black">{{ pet.gender }}</td>
-                    <td class="px-4 py-2 border text-black">{{ pet.status }}</td>
-                    <td class="px-4 py-2 border text-black">
-                      <form method="POST" action="{% url 'update-status' pet.uuid %}">
-                          {% csrf_token %}
-                          <select name="appointment_status">
-                            <option value="PENDING" {% if pet.appointment_status == "PENDING" %}selected{% endif %}>Pending</option>
-                            <option value="SCHEDULED" {% if pet.appointment_status == "SCHEDULED" %}selected{% endif %}>Scheduled</option>
-                            <option value="APPROVED" {% if pet.appointment_status == "APPROVED" %}selected{% endif %}>Approved</option>
-                            <option value="REJECTED" {% if pet.appointment_status == "REJECTED" %}selected{% endif %}>Rejected</option>
-                          </select>
-                          <button type="submit">Update</button>
-                        </form>
-                    </td>
-
-
-                    <td class="px-4 py-2 border text-black">{{ pet.service_type }}</td>
-                    {%check_user_roles request 'Admin' as allow%}
-                    {%if allow%}
-                    <td class="px-4 py-3 border text-black space-x-2">
-                      <a href="{% url 'pet-update' pet.uuid %}" class="text-blue-600 hover:underline">
-                          <i class="fas fa-pencil-alt"></i> 
-                      </a>
-                      <span class="px-2"> </span> <!-- Slash between the links -->
-                      <a href="{% url 'pet-delete' pet.uuid %}" class="text-red-600 hover:underline">
-                          <i class="fas fa-trash-alt"></i> 
-                      </a>
-                  </td>  
-                  {%endif%}
-                  </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-        {% else %}
-          <p class="text-black">No pets registered yet.</p>
-        {% endif %}
-      </div>
-    </div>
+{% block section %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<div class="p-6">
+  <h1 class="text-2xl font-bold text-white bg-red-800 p-4 rounded-t">Registered Pets</h1>
+  {% if pets %}
+  <div class="overflow-x-auto bg-white shadow-md rounded-b">
+    <table class="min-w-full table-auto border border-gray-200 text-sm">
+      <thead>
+        <tr class="bg-green-800 text-white">
+          <th class="px-4 py-2 border">Photo</th>
+          <th class="px-4 py-2 border">Name</th>
+          <th class="px-4 py-2 border">Customer</th>
+          <th class="px-4 py-2 border">Category</th>
+          <th class="px-4 py-2 border">Breed</th>
+          <th class="px-4 py-2 border">Age</th>
+          <th class="px-4 py-2 border">Gender</th>
+          <th class="px-4 py-2 border">Status</th>
+          <th class="px-4 py-2 border">Appointment Status</th>
+          <th class="px-4 py-2 border">Service Type</th>
+          {%check_user_roles request 'Admin' as allow%}
+          {%if allow%}
+          <th class="px-4 py-2 border">Actions</th>
+          {%endif%}
+        </tr>
+      </thead>
+      <tbody>
+        {% for pet in pets %}
+        <tr class="bg-white even:bg-gray-100">
+          <td class="px-4 py-2 border text-center">
+            {% if pet.photo %}
+              <img src="{{ pet.photo.url }}" alt="{{ pet.name }}" class="h-10 w-10 object-cover rounded-full mx-auto">
+            {% else %}
+              <span class="text-gray-500 italic">No photo</span>
+            {% endif %}
+          </td>
+          <td class="px-4 py-2 border">{{ pet.name }}</td>
+          <td class="px-4 py-2 border whitespace-normal break-words max-w-xs">{{ pet.customer.name }}</td>
+          <td class="px-4 py-2 border">{{ pet.category }}</td>
+          <td class="px-4 py-2 border">{{ pet.breed }}</td>
+          <td class="px-4 py-2 border">{{ pet.age }}</td>
+          <td class="px-4 py-2 border">{{ pet.gender }}</td>
+          <td class="px-4 py-2 border">{{ pet.status }}</td>
+          <td class="px-5 py-2 border">
+            <form method="POST" action="{% url 'update-status' pet.uuid %}">
+              {% csrf_token %}
+              <select name="appointment_status" onchange="this.form.submit()">
+                <option value="PENDING" {% if pet.appointment_status == "PENDING" %}selected{% endif %}>Pending</option>
+                <option value="SCHEDULED" {% if pet.appointment_status == "SCHEDULED" %}selected{% endif %}>Scheduled</option>
+                <option value="APPROVED" {% if pet.appointment_status == "APPROVED" %}selected{% endif %}>Approved</option>
+                <option value="REJECTED" {% if pet.appointment_status == "REJECTED" %}selected{% endif %}>Rejected</option>
+              </select>
+          </form>
+          </td>
+          <td class="px-4 py-2 border">{{ pet.service_type }}</td>
+          {%check_user_roles request 'Admin' as allow%}
+          {%if allow%}
+          <td class="px-4 py-3 border text-black space-x-2">
+            <a href="{% url 'pet-update' pet.uuid %}" class="text-blue-600 hover:underline">
+              <i class="fas fa-pencil-alt"></i> 
+          </a>
+          <span class="px-2"> </span>
+          <a href="{% url 'pet-delete' pet.uuid %}" class="text-red-600 hover:underline">
+              <i class="fas fa-trash-alt"></i> 
+          </a>
+        </td> 
+        {%endif%} 
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
-</main>
+  {% else %}
+    <p class="text-black">No pets registered yet.</p>
+  {% endif %}
+</div>
 {% endblock %}

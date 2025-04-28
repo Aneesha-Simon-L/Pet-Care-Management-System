@@ -8,7 +8,7 @@ class PetRegistrationForm(forms.ModelForm):
 
         model = Pets
 
-        exclude = ['uuid','adm_number','active_status', 'created_at', 'updated_at', 'registration_date','customer','status','appointment_status']
+        exclude = ['uuid','adm_number','active_status', 'created_at', 'updated_at', 'registration_date','customer','appointment_status']
 
         widgets = {'name': forms.TextInput(attrs={'class': 'block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-select',
                                                   'placeholder': 'Enter pet name',
@@ -73,26 +73,3 @@ class PetRegistrationForm(forms.ModelForm):
 
             self.fields.get('photo').widget.attrs['required'] = 'required'
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# from authentication.models import Profile
-
-# profile = forms.ModelChoiceField(queryset=Profile.objects.all(),widget=forms.Select(attrs={
-#             'class': 'block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray',
-#             'required': 'required'}))
